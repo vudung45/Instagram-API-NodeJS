@@ -25,7 +25,7 @@ var utf8 = require('utf8')
 ## Details
 
 ```
-1. instagramauth.js contains the NodeJS API for this repo
+1. instagramauth.js contains the NodeJS Instagram API in this repo
 2. start.js and webapp.js are examples file on how to execute the code
 ```
 
