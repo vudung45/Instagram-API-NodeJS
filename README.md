@@ -1,8 +1,8 @@
 # Instagram NodeJS API
 
-This repo contains a NodeJS API for an Unofficial Instagram API which allows you to retrieve information that the offical API
+This repo contains a NodeJS API for an Unofficial Instagram API which allows you to retrieve information that the offical API doens't allow
 
-doens't allow
+This was my simple one-day project. I will keep it updated.
 
 ## Dependencies
 
