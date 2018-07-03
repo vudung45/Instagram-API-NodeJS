@@ -167,7 +167,6 @@ app.post('/login', (req, res, next) => {
     AuthSession.login((data) => {
         try 
         {
-        	data = JSON.parse(data)
 	        if (data.success) {
 	            req.session.isLoggedIn = true
 	            InstagramSessions[req.sessionID] = AuthSession
@@ -199,6 +198,7 @@ app.post('/login', (req, res, next) => {
 	        }
 	    } catch (e)
 	    {
+	    	console.log(e)
 	    	res.json({
 	                success: false,
 	                message: "Something went wrong!"
