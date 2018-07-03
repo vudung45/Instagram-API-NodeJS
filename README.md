@@ -33,5 +33,6 @@ var utf8 = require('utf8')
 ### To start the WebApp demo
 `node start.js`
 
-
+### Quick demo
+[![InstaNodeJS](http://img.youtube.com/vi/h5GW_4cWvCc/0.jpg)](http://www.youtube.com/watch?v=h5GW_4cWvCc)
 
