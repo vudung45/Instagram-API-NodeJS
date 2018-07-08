@@ -27,10 +27,44 @@ var utf8 = require('utf8')
 ```
 1. instagramauth.js contains the NodeJS Instagram API in this repo
 2. start.js and webapp.js are examples file on how to execute the code
+
+```
+
+## Sample code
+
+```
+var InstagramLoginAPI = require('./app/index.js')
+
+var AuthSession = new InstagramAPI("your_user_name", "your_pass_word") 
+
+
+
+/* Some basic info is parsed after login*/
+AuthSession.login((data) => { 
+	//typeof(data) == object
+	//console.log(data) => {success: True or False, data: Response data in string}
+		if(data.success)
+		{
+			console.log(AuthSession.fullname) // ----> User instagram account's full name
+
+			console.log(Authsession.profile_pic) // ----> Profile pic
+
+			var responseDataJSON = JSON.parse(data.data) --> response data from instagram API
+
+			AuthSession.getFollowings( (data) =>
+				if(data)
+				{
+					followings = JSON.parse(data)
+				}
+			)
+		}
+})
 ```
 
 ### To start the WebApp demo
 `node start.js`
+
+
 
 ### Quick demo
 [![InstaNodeJS](http://img.youtube.com/vi/h5GW_4cWvCc/0.jpg)](http://www.youtube.com/watch?v=h5GW_4cWvCc)

@@ -45,7 +45,6 @@ This code contains 2 approaches that I investigated
 Unofficial API Approach
 **/
 app.get('/', (req, res, next) => {
-    console.log(req.session)
     //Client-side rendering react
     res.sendFile(path.join(__dirname + '/skeleton.html'));
 })
@@ -88,7 +87,6 @@ app.get('/localapi', (req, res, next) => {
 
 app.get('/unfollow', (req, res) => {
     if (req.session.isLoggedIn) {
-        console.log("here")
         console.log(req.query)
         if (typeof(req.query.uid) != 'undefined') {
             var AuthSession = InstagramSessions[req.sessionID]
@@ -139,7 +137,6 @@ app.get('/getFollowings', (req, res) => {
         res.json({
             success: false
         })
-
     }
 })
 
@@ -150,8 +147,6 @@ app.get('/logout', (req, res, next) => {
             req.session.destroy();
             delete InstagramSessions[req.sessionID]
             res.redirect("/")
-
-
         })
     } else
         res.redirect("/")
@@ -205,8 +200,6 @@ app.post('/login', (req, res, next) => {
 	            })	
 	    }
     })
-
-
 })
 
 
@@ -244,42 +237,43 @@ app.get('/instagram_api', (req, res) => {
                 type: 'official',
                 auth_link: auth_link
             }
-            const appString = ReactDOMServer.renderToString( < InstagramLoginAPI { ...props
-                }
-                />);
+            const appString = ReactDOMServer.renderToString(<InstagramLoginAPI { ...props}/>);
 
                 res.send(appString);
-            })
+})
 
 
-        //Handle Login
-        app.get('/accesstoken', (req, res) => {
-            var code = req.query.code
-            if (typeof code != 'undefined') {
-                console.log("Login successfully. Code: " + code)
-                //Get login code successfully, now send a post request to instagram api
-                //to retrieve access token for further applications
-                request.post({
-                        url: 'https://api.instagram.com/oauth/access_token',
-                        form: {
-                            client_id: instagram_config.client_id,
-                            client_secret: instagram_config.client_secret,
-                            grant_type: "authorization_code",
-                            redirect_uri: instagram_config.redirect_uri,
-                            code: code
-                        }
-                    }, (err, res1, body) => {
-                        req.session.authenticated = true
-                        req.session.access_token = JSON.parse(body).access_token
-                        //save token as cookie
-                        res.redirect("/")
+//Handle Login
+app.get('/accesstoken', (req, res) => {
+	try {
+        var code = req.query.code
+        if (typeof code != 'undefined') {
+            console.log("Login successfully. Code: " + code)
+            //Get login code successfully, now send a post request to instagram api
+            //to retrieve access token for further applications
+            request.post({
+                    url: 'https://api.instagram.com/oauth/access_token',
+                    form: {
+                        client_id: instagram_config.client_id,
+                        client_secret: instagram_config.client_secret,
+                        grant_type: "authorization_code",
+                        redirect_uri: instagram_config.redirect_uri,
+                        code: code
                     }
+                }, (err, res1, body) => {
+                    req.session.authenticated = true
+                    req.session.access_token = JSON.parse(body).access_token
+                    //save token as cookie
+                    res.redirect("/")
+                }
 
-                )
-            } else
-                res.redirect("/")
-
-        })
+            )
+        } else
+        res.redirect("/")
+    } catch(e) {
+    	res.redirect("/")
+    }
+})
 
 
 app.listen(8080, () =>

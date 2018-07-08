@@ -50,8 +50,8 @@ class InstagramAuth {
         this.sendRequest('si/fetch_headers/?challenge_type=signup&guid=' + this.genUUID(false), null,
             (data) => {
                 if (data != null) {
-                    var cookie = this.cookieJar.getCookies(API_URL)
 
+                    var cookie = this.cookieJar.getCookies(API_URL)
                     var send_data = {
                         'phone_id': this.genUUID(true),
                         '_csrftoken': cookie['csrftoken'],

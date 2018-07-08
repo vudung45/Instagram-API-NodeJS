@@ -4,7 +4,8 @@ class Profile extends React.Component {
   constructor(props)
   {
     super(props)
-    this.state  = {userdata : props.userdata, showFollowings: false, followings_detailed:{} ,is_loading: false}
+    this.state  = {userdata : props.userdata, showFollowings: false, followings_detailed:{} ,is_loading: false,
+                    message: ""}
     this.handleClick = this.handleClick.bind(this)
   }
 
@@ -32,23 +33,19 @@ class Profile extends React.Component {
           {
             if(json.data != null)
             {
-              try
-              {
                 var users_list = json.data["users"]
                 var followings_detailed = {}
                 for(var i = 0; i < users_list.length; i++)
                 {
                    followings_detailed[users_list[i].pk] = users_list[i]
                 }
-                this.setState({followings_detailed: followings_detailed, is_loading : false})
-              } catch(e) {
-                console.log(e)
-              }
+                this.setState({followings_detailed: followings_detailed, is_loading : false, 
+                                message: "Total: "+Object.keys(followings_detailed).length+" followings"})
             }
           }
     }).catch(e =>
     {
-      console.log("Error getting followings")
+        this.setState({is_loading:false, message: "Error getting followings"})
     })
     
     event.preventDefault()
@@ -63,6 +60,8 @@ class Profile extends React.Component {
         <a href="/logout"> Logout </a>
         <br />
         <a href="" onClick={this.handleClick}> Get followings </a>
+        <br />
+        <a>{this.state.message}</a>
         <Followers message="" followings_detailed={this.state.followings_detailed} is_loading={this.state.is_loading }/>
       </div>
     )
